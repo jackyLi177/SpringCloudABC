@@ -1,0 +1,14 @@
+server:
+  port: 10001
+spring:
+  application:
+    name: zuul-gateway
+zuul:
+  routes:
+    hello-service-1:
+      path: /hello-service-1/**
+      serviceID: hello-service-1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10000/eureka/

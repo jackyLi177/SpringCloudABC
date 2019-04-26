@@ -1,11 +1,11 @@
-
+# 命令行 java -jar **.jar --spring.profiles.active=xxx 启动不同配置文件
 
 spring:
   application:
     name: hello-service-1
 
 server:
-  port: 20000
+  port: 20002
 
 eureka:
   client:
