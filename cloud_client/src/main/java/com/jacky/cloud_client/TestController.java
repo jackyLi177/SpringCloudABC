@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author ：lyj
  * @date ：2019/4/26 11:34
  */
-@EnableConfigurationProperties
 @RestController
 public class TestController {
 
