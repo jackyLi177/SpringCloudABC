@@ -5,9 +5,16 @@ spring:
     name: zuul-gateway
 zuul:
   routes:
-    hello-service-1:
-      path: /hello-service-1/**
-      serviceID: hello-service-1
+    # 将/author/** 路径的请求转发给author服务
+    author:
+      path: /api-a/**
+      serviceID: author
+    # 将/book/** 路径的请求转发给author服务
+    book:
+      path: /api-b/**
+      serviceID: book
+  # 所有请求必须加上前缀 ， eg. http://localhost:10001/api/book/index
+  prefix: /api
 eureka:
   client:
     service-url:

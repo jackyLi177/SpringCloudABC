@@ -2,7 +2,7 @@
 
 spring:
   application:
-    name: hello-service-1
+    name: author
 
 server:
   port: 20000

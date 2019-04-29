@@ -1,5 +1,6 @@
 package com.jacky.cloud_client;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,9 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    @Value("${server.port}")
+    private Integer port;
+
     @GetMapping("/index")
     public String index(){
-        return "client_2";
+        return "book";
     }
 
 }

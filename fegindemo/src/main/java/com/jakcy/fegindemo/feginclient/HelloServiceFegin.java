@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 //feign 整合了ribbon，具备负载均衡的功能
 //这是一个feign客户端，调用name服务名的服务，轮询访问可用的服务器
-// 这时候注入到IOC的bean名称是 “hello-service-1”
-
-@FeignClient(name = "HELLO-SERVICE-1",fallback = HelloServiceFeginFallbackImpl.class)
+@FeignClient(name = "author",fallback = HelloServiceFeginFallbackImpl.class)
 @Component(value = "helloServiceFegin")
 public interface HelloServiceFegin {
 

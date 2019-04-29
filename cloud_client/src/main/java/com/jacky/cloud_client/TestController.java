@@ -1,7 +1,6 @@
 package com.jacky.cloud_client;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +16,7 @@ public class TestController {
 
     @GetMapping("/index")
     public String index(){
-        return "client_1" + this.port;
+        return "author at port " + this.port;
     }
 
 }

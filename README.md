@@ -1,0 +1,15 @@
+- cloud_client:
+    - service name:author
+    - port: 20000 20002 
+- cloud_client_2:
+    - service name:book
+    - port: 20001 20003
+- cloud_server:
+    - service name:jacky-spring-cloud-eureka
+    - port: 10000
+- fegindemo:
+    - service name:service-feign
+    - port:10002
+-zuuldemo:
+    - service name:zuul-gateway
+    - port :10001

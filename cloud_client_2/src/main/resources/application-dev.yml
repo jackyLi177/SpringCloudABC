@@ -1,6 +1,6 @@
 spring:
   application:
-    name: hello-service-2
+    name: book
 
 server:
   port: 20003
