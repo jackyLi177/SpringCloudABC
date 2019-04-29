@@ -63,6 +63,6 @@ public class TokenFilter extends ZuulFilter {
             context.setResponseStatusCode(200);
             context.setSendZuulResponse(true);
         }
-        return null;
+        return context;
     }
 }
