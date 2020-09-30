@@ -18,3 +18,13 @@
  1. 根据安装包内的sql创建数据库表
  2. 修改配置文件数据库相关配置
  3. 修改cmd文件，启动方式为单机
+ 
+ * ###依赖：
+ 
+         <!-- https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-alibaba-nacos-discovery -->
+         <dependency>
+             <groupId>com.alibaba.cloud</groupId>
+             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+             <version>2.2.3.RELEASE</version>
+         </dependency>
+ 
