@@ -13,3 +13,8 @@
 -zuuldemo:
     - service name:zuul-gateway
     - port :10001
+
+## nacos
+ 1. 根据安装包内的sql创建数据库表
+ 2. 修改配置文件数据库相关配置
+ 3. 修改cmd文件，启动方式为单机
