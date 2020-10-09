@@ -1,0 +1,13 @@
+server:
+  port: 8852
+spring:
+  application:
+    name: nacos-config-center
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848  #注册中心地址
+
+nacos:
+  config:
+    server-addr: localhost:8848  #配置中心地址
