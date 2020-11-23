@@ -63,7 +63,7 @@ public class Demo {
     }
 
     /**
-     * 生产一条消息
+     * 生产一条消息/工厂方法
      */
     public static void testSupplier(){
         Supplier<String> supplier = () -> "supplier return";
