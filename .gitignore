@@ -27,3 +27,11 @@
 /nacos/nacos_provider/mvnw.cmd
 /nacos/nacos_provider/nacos_provider.iml
 /nacos/nacos.iml
+/nacos/nacos_config_center/target/
+/nacos/nacos_config_center/nacos_config_center.iml
+/auth_center/mvnw
+/auth_center/mvnw.cmd
+/auth_center/.gitignore
+/auth_center/.mvn/
+/common_conf/target/
+/common_conf/common_conf.iml
