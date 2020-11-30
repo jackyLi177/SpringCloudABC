@@ -1,11 +1,5 @@
 spring:
   application:
-    name: book
-
+    name: book-dev
 server:
   port: 20003
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:10000/eureka/

@@ -1,9 +1,8 @@
 spring:
-  application:
-    name: book
-
+  profiles:
+    active: dev
 server:
-  port: 20001
+  port: 20000
 
 eureka:
   client:
