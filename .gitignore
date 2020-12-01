@@ -35,3 +35,5 @@
 /auth_center/.mvn/
 /common_conf/target/
 /common_conf/common_conf.iml
+/nacos/nacos_config_center/target/
+/nacos/nacos_config_center/target/

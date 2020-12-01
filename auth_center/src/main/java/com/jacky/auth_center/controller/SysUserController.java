@@ -3,11 +3,10 @@ package com.jacky.auth_center.controller;
 import com.jacky.auth_center.model.VO.SysUserVO;
 import com.jacky.auth_center.service.SysUserService;
 import common.RespResult;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description 用户管理
@@ -29,6 +28,13 @@ public class SysUserController {
     @PostMapping("/login")
     public RespResult login(@RequestBody SysUserVO vo){
         return sysUserService.login(vo);
+    }
+
+    @GetMapping("/index")
+    public String index(){
+        Subject subject = SecurityUtils.getSubject();
+        System.out.println(subject);
+        return "login successful";
     }
 
 }

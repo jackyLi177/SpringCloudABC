@@ -8,15 +8,17 @@ import common.BizEnum;
 import common.BizException;
 import common.RespResult;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import util.RespResultUtil;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -76,22 +78,37 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public RespResult login(SysUser param) {
-        SysUser user = sysUserMapper.getOneByUName(param.getName());
-        if (Objects.isNull(user)) {
-            throw new BizException("用户名无效！");
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(param.getName(),param.getPass());
+        try{
+            subject.login(usernamePasswordToken);
+        }catch  ( UnknownAccountException uae ) {
+            throw new BizException(uae.getMessage());
+        } catch  ( IncorrectCredentialsException ice ) {
+            throw new BizException(ice.getMessage());
+        } catch  ( LockedAccountException lae ) {
+            throw new BizException(lae.getMessage());
+        } catch  ( ExcessiveAttemptsException eae ) {
+            throw new BizException(eae.getMessage());
+        }catch ( AuthenticationException ae ) {
+            throw new BizException(ae.getMessage());
+        }catch (AuthorizationException e){
+            throw new BizException(e.getMessage());
+        }catch (Exception e){
+            throw new BizException(e.getMessage());
         }
-        if (passwordEncoder.matches(param.getPass(), user.getPass())) {
-            return RespResultUtil.success();
-        }
-        return RespResultUtil.success("密码错误");
+        return RespResultUtil.success("登陆成功");
+    }
+
+    @Override
+    public SysUser getByName(String name) {
+        return sysUserMapper.getOneByName(name);
     }
 
     public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String pass = "123456";
-        String encode = encoder.encode(pass);
-        System.out.println(encode);
-        System.out.println(encoder.matches(pass, encode));
+        String pass = "$2a$10$BvHAU/ltQQ46WIszZwEBruHCEbU.A30gCIGBE1AUrD86B9M1sMR9G";
+        System.out.println(encoder.matches("admin", pass));
     }
 
 }

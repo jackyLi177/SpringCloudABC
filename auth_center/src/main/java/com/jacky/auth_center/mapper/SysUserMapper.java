@@ -15,5 +15,5 @@ public interface SysUserMapper {
 
     int updateByPrimaryKey(SysUser record);
 
-    SysUser getOneByUName(@Param("uName") String uName);
+    SysUser getOneByName(@Param("name") String name);
 }

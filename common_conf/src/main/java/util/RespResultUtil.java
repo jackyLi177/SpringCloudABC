@@ -18,6 +18,10 @@ public class RespResultUtil {
         return new RespResult(message);
     }
 
+    public static RespResult success(String message,Object data){
+        return new RespResult(0,message,data);
+    }
+
     public static RespResult success(Object data){
         return new RespResult(data);
     }
