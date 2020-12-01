@@ -131,7 +131,7 @@
     <logger name="com.jacky.auth_center.mapper" level="debug"></logger>
 
     <root>
-        <level value="all"/>
+        <level value="debug"/>
         <appender-ref ref="ConsoleAppender"/>
     </root>
 

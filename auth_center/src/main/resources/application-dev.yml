@@ -21,3 +21,7 @@ mybatis:
   mapper-locations: classpath*:mapper/*.xml
 logging:
   config: classpath:logback-custom.xml
+
+jwt:
+  salt: 1234567890
+  expire: 10

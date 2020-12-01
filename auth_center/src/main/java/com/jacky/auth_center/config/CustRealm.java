@@ -4,8 +4,6 @@ import com.jacky.auth_center.model.DO.SysUser;
 import com.jacky.auth_center.service.SysUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -65,5 +63,15 @@ public class CustRealm extends AuthorizingRealm {
     public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
         CustomerCredentialsMatcher customerCredentialsMatcher = new CustomerCredentialsMatcher();
         super.setCredentialsMatcher(customerCredentialsMatcher);
+    }
+
+    /**
+     * 当传入的是 UsernamePasswordToken 时使用本Realm
+     * @param token
+     * @return
+     */
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof UsernamePasswordToken;
     }
 }

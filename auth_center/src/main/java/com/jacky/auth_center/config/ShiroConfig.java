@@ -1,13 +1,16 @@
 package com.jacky.auth_center.config;
 
+import org.apache.shiro.mgt.SessionStorageEvaluator;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.mgt.DefaultWebSessionStorageEvaluator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,26 +53,46 @@ public class ShiroConfig {
     }
 
     @Bean
+    public JWTRealm jwtShiroRealm() {
+        JWTRealm jwtRealm = new JWTRealm();
+        return jwtRealm;
+    }
+
+    @Bean
     public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
 
     /**
-     * Filter工厂，设置对应的过滤条件和跳转条件
-     * @return
+     * 设置过滤器，将自定义的Filter加入
      */
     @Bean("shiroFilter")
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(){
-        /**
-         *MShiroFilterFactoryBean指向自定义过滤器，自定义过滤器对js/css等忽
-         *略
-         **/
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager());
-        Map<String, String> map = new HashMap<>();
-//        map.put("/auth/*","anon");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
-        return shiroFilterFactoryBean;
+    public ShiroFilterFactoryBean shiroFilter() {
+        ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+        factoryBean.setSecurityManager(securityManager());
+        Map<String, Filter> filterMap = factoryBean.getFilters();
+        filterMap.put("jwtFilter", createCustJwtAuthFilter());
+        factoryBean.setFilters(filterMap);
+        Map<String,String> filterChainDefinition = new HashMap<>();
+        filterChainDefinition.put("/auth/*","jwtFilter");
+        factoryBean.setFilterChainDefinitionMap(filterChainDefinition);
+        return factoryBean;
+    }
+
+    //注意不要加@Bean注解，不然spring会自动注册成filter
+    protected CustJwtAuthFilter createCustJwtAuthFilter(){
+        return new CustJwtAuthFilter();
+    }
+
+    /**
+     * 使用token验证后，取消session存储，请求都是无状态请求
+     * @return
+     */
+    @Bean
+    protected SessionStorageEvaluator sessionStorageEvaluator(){
+        DefaultWebSessionStorageEvaluator sessionStorageEvaluator = new DefaultWebSessionStorageEvaluator();
+        sessionStorageEvaluator.setSessionStorageEnabled(false);
+        return sessionStorageEvaluator;
     }
 
 }
