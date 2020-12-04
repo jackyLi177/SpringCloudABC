@@ -52,7 +52,7 @@ public class SysUser {
         try {
             Field tel = this.getClass().getDeclaredField("tel");
             if (tel.isAnnotationPresent(DecryptField.class)){
-                return ADESUtils.decrypt(this.tel);
+                return ADESUtils.getInstance().decrypt(this.tel);
             }
         } catch (NoSuchFieldException e) {
             return this.tel;
