@@ -25,32 +25,11 @@ public class ADESUtils {
     private static final String ENCODING = "UTF-8";
 
     // 密盐
-    private static String aesSalt;
+    private static String aesSalt = "1234567890";
     private static com.jacky.auth_center.util.ADESUtils adesUtils;
     private static Cipher encryptCipher;    // 加密cipher
     private static Cipher decryptChipher;   // 解密chipher
 
-    // 加解密开关，从配置获取
-    private static String CRYPTIC_SWITCH;
-    /**
-     * 从配置中获取秘钥
-     * :默认值填写自己生成的秘钥
-     * @param key
-     */
-    @Value("${extra.salt:0}")
-    public void setAESSalt(String key){
-        com.jacky.auth_center.util.ADESUtils.aesSalt = key;
-    }
-
-    /**
-     * 获取开关
-     * 默认为不加密
-     * @param val
-     */
-    @Value("${extra.switch:0}")
-    public void setCrypticSwitch(String val) {
-        com.jacky.auth_center.util.ADESUtils.CRYPTIC_SWITCH = val;
-    }
     /**
      * encryptCipher、decryptChipher初始化
      */
@@ -95,7 +74,7 @@ public class ADESUtils {
      */
     public String encrypt(String pString) {
 
-        if (StringUtils.isBlank(pString) || StringUtils.equals("0", CRYPTIC_SWITCH)) {
+        if (StringUtils.isBlank(pString)) {
             return StringUtils.trimToEmpty(pString);
         }
         try{
@@ -112,7 +91,7 @@ public class ADESUtils {
      * @return
      */
     public String decrypt(String eString) {
-        if (StringUtils.isBlank(eString) || StringUtils.equals("0", CRYPTIC_SWITCH)){
+        if (StringUtils.isBlank(eString)){
             return StringUtils.trimToEmpty(eString);
         }
         try {

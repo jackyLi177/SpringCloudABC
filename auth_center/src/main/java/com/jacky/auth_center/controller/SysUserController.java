@@ -7,6 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import util.RespResultUtil;
 
 /**
  * @Description 用户管理
@@ -47,6 +48,11 @@ public class SysUserController {
     @GetMapping("/index")
     public String index(){
         return "user index ";
+    }
+
+    @GetMapping("/userList")
+    public RespResult getUserList(){
+        return RespResultUtil.success(sysUserService.getAll());
     }
 
 }

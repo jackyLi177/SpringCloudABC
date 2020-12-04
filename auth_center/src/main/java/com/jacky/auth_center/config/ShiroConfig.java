@@ -16,7 +16,7 @@ import java.util.*;
  * @Author liyj
  * @Date 2020/12/1 10:42 上午
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
 
     /**
@@ -37,9 +37,11 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(securityManager);
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
         filterRuleMap.put("/user/login","anon");
+        filterRuleMap.put("/user/register","anon");
         filterRuleMap.put("/index/index","anon");
         // 所有请求通过我们自己的JWT Filter
-        filterRuleMap.put("/**", "jwt");
+//        filterRuleMap.put("/**", "jwt");
+        filterRuleMap.put("/**", "anon");
 
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import util.RespResultUtil;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -111,6 +112,10 @@ public class SysUserServiceImpl implements SysUserService {
         System.out.println(encoder.matches("admin", pass));
     }
 
+    @Override
+    public List<SysUser> getAll() {
+        return sysUserMapper.getAll();
+    }
 }
 
 
