@@ -30,11 +30,23 @@ public class SysUserController {
         return sysUserService.login(vo);
     }
 
-    @GetMapping("/index")
-    public String index(){
+    @GetMapping("/need_login")
+    public String needLogin(){
         Subject subject = SecurityUtils.getSubject();
         System.out.println(subject);
-        return "login successful";
+        return "you need to log in";
+    }
+
+    @GetMapping("/failure")
+    public String failure(){
+        Subject subject = SecurityUtils.getSubject();
+        System.out.println(subject);
+        return "login failure";
+    }
+
+    @GetMapping("/index")
+    public String index(){
+        return "user index ";
     }
 
 }
