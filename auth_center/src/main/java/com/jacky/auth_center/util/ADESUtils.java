@@ -30,27 +30,6 @@ public class ADESUtils {
     private static Cipher encryptCipher;    // 加密cipher
     private static Cipher decryptChipher;   // 解密chipher
 
-    // 加解密开关，从配置获取
-    private static String CRYPTIC_SWITCH;
-    /**
-     * 从配置中获取秘钥
-     * :默认值填写自己生成的秘钥
-     * @param key
-     */
-    @Value("${extra.salt:0}")
-    public void setAESSalt(String key){
-        com.jacky.auth_center.util.ADESUtils.aesSalt = key;
-    }
-
-    /**
-     * 获取开关
-     * 默认为不加密
-     * @param val
-     */
-    @Value("${extra.switch:0}")
-    public void setCrypticSwitch(String val) {
-        com.jacky.auth_center.util.ADESUtils.CRYPTIC_SWITCH = val;
-    }
     /**
      * encryptCipher、decryptChipher初始化
      */
@@ -94,10 +73,6 @@ public class ADESUtils {
      * @return
      */
     public String encrypt(String pString) {
-
-        if (StringUtils.isBlank(pString) || StringUtils.equals("0", CRYPTIC_SWITCH)) {
-            return StringUtils.trimToEmpty(pString);
-        }
         try{
             return new String(Hex.encodeHex(encryptCipher.doFinal(pString.getBytes(ENCODING)))).toUpperCase();
         } catch (Exception e) {
@@ -112,9 +87,6 @@ public class ADESUtils {
      * @return
      */
     public String decrypt(String eString) {
-        if (StringUtils.isBlank(eString) || StringUtils.equals("0", CRYPTIC_SWITCH)){
-            return StringUtils.trimToEmpty(eString);
-        }
         try {
             return new String(decryptChipher.doFinal(Hex.decodeHex(eString.toCharArray())));
         } catch (Exception e) {

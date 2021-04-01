@@ -4,6 +4,7 @@ import com.jacky.auth_center.mapper.SysUserMapper;
 import com.jacky.auth_center.model.DO.SysUser;
 import com.jacky.auth_center.service.SysUserService;
 import com.jacky.auth_center.util.ADESUtils;
+import com.jacky.auth_center.util.ShiroUtil;
 import common.BizEnum;
 import common.BizException;
 import common.RespResult;
@@ -98,6 +99,13 @@ public class SysUserServiceImpl implements SysUserService {
             throw new BizException(e.getMessage());
         }
         return RespResultUtil.success("登陆成功");
+    }
+
+    @Override
+    public RespResult logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return RespResultUtil.success();
     }
 
     @Override

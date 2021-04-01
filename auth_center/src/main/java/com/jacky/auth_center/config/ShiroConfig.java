@@ -28,7 +28,7 @@ public class ShiroConfig {
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
         filterRegistration.setFilter(new DelegatingFilterProxy("shiroFilter"));
         filterRegistration.setEnabled(true);
-        filterRegistration.addUrlPatterns("/auth/*"); //过滤规则，即所有的请求
+//        filterRegistration.addUrlPatterns("/auth/*"); //过滤规则，即所有的请求
         return filterRegistration;
     }
 
@@ -67,7 +67,7 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
         Map<String, String> map = new HashMap<>();
-//        map.put("/auth/*","anon");
+        map.put("/auth/*","anon");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }

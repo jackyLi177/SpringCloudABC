@@ -22,6 +22,8 @@ public interface SysUserService {
 
     RespResult login(SysUser user);
 
+    RespResult logout();
+
     SysUser getByName(String name);
 
 }

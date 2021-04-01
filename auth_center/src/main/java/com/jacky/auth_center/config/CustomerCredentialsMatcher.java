@@ -21,6 +21,7 @@ public class CustomerCredentialsMatcher implements CredentialsMatcher {
         String currentPass = String.copyValueOf((char[]) authenticationToken.getCredentials());
         //数据库密码
         String dbPass = (String) authenticationInfo.getCredentials();
+        //注册时候，数据库存储的时候用的是该 加密类的密文，所以这里登录的时候需要用该类来解密
         return passwordEncoder.matches(currentPass,dbPass);
     }
     
