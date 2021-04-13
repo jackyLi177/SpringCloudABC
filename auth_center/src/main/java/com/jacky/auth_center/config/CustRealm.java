@@ -10,6 +10,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
@@ -18,6 +19,7 @@ import java.util.Objects;
  * @Author liyj
  * @Date 2020/12/1 10:33 上午
  */
+@Component
 public class CustRealm extends AuthorizingRealm {
 
     @Autowired

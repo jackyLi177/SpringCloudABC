@@ -16,7 +16,7 @@ import java.util.*;
  * @Author liyj
  * @Date 2020/12/1 10:42 上午
  */
-//@Configuration
+@Configuration
 public class ShiroConfig {
 
     /**
@@ -38,10 +38,11 @@ public class ShiroConfig {
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
         filterRuleMap.put("/user/login","anon");
         filterRuleMap.put("/user/register","anon");
-        filterRuleMap.put("/index/index","anon");
+        filterRuleMap.put("/user/need_login","anon");
+        filterRuleMap.put("/user/index","anon");
+        filterRuleMap.put("/index/index","jwt");
         // 所有请求通过我们自己的JWT Filter
-//        filterRuleMap.put("/**", "jwt");
-        filterRuleMap.put("/**", "anon");
+        filterRuleMap.put("/**", "jwt");
 
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
@@ -52,25 +53,12 @@ public class ShiroConfig {
      * @return
      */
     @Bean
-    public DefaultWebSecurityManager defaultWebSecurityManager() {
+    public DefaultWebSecurityManager defaultWebSecurityManager(JWTRealm realm) {
         DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
         List<Realm> realmList = new ArrayList<>();
-        realmList.add(custRealm());
-        realmList.add(jwtShiroRealm());
+        realmList.add(realm);
         manager.setRealms(realmList);
         return manager;
-    }
-
-    @Bean
-    public CustRealm custRealm() {
-        CustRealm userRealm = new CustRealm();
-        return userRealm;
-    }
-
-    @Bean
-    public JWTRealm jwtShiroRealm() {
-        JWTRealm jwtRealm = new JWTRealm();
-        return jwtRealm;
     }
 
     @Bean

@@ -2,16 +2,15 @@ package com.jacky.auth_center.service.impl;
 
 import com.jacky.auth_center.mapper.SysUserMapper;
 import com.jacky.auth_center.model.DO.SysUser;
+import com.jacky.auth_center.model.VO.SysUserVO;
 import com.jacky.auth_center.service.SysUserService;
 import com.jacky.auth_center.util.ADESUtils;
+import com.jacky.auth_center.util.JwtUtil;
 import common.BizEnum;
 import common.BizException;
 import common.RespResult;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
-import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.subject.Subject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -79,26 +78,20 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public RespResult login(SysUser param) {
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(param.getName(),param.getPass());
-        try{
-            subject.login(usernamePasswordToken);
-        }catch  ( UnknownAccountException uae ) {
-            throw new BizException(uae.getMessage());
-        } catch  ( IncorrectCredentialsException ice ) {
-            throw new BizException(ice.getMessage());
-        } catch  ( LockedAccountException lae ) {
-            throw new BizException(lae.getMessage());
-        } catch  ( ExcessiveAttemptsException eae ) {
-            throw new BizException(eae.getMessage());
-        }catch ( AuthenticationException ae ) {
-            throw new BizException(ae.getMessage());
-        }catch (AuthorizationException e){
-            throw new BizException(e.getMessage());
-        }catch (Exception e){
-            throw new BizException(e.getMessage());
+        SysUser user = sysUserMapper.getOneByName(param.getName());
+        if (Objects.isNull(user)) {
+            throw new BizException("用户名不正确");
         }
-        return RespResultUtil.success("登陆成功");
+        String plainPass = param.getPass();
+        if (passwordEncoder.matches(plainPass,user.getPass())) {
+            String token = JwtUtil.sign(user.getName(), user.getPass(), JwtUtil.expire);
+            SysUserVO sysUserVO = new SysUserVO();
+            BeanUtils.copyProperties(user,sysUserVO);
+            sysUserVO.setToken(token);
+            return RespResultUtil.success(sysUserVO);
+        }else {
+            throw new BizException("用户名密码不匹配");
+        }
     }
 
     @Override

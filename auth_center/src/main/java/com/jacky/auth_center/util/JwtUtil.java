@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.jacky.auth_center.common.JWTToken;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -19,23 +20,42 @@ import java.util.Date;
  */
 public class JwtUtil {
 
-    @Value("${jwt.salt}")
-    public static String salt ;
-    @Value("${jwt.expirt}")
-    public static long time;
+    /**
+     * token 过期时间（min）
+     */
+    public static long expire = 30;
+
+    /**
+     * 生成签名,expireTime后过期
+     *
+     * @param username 用户名
+     * @param salt 盐
+     * @param time     过期时间 min
+     * @return 加密的token
+     */
+    public static String sign(String username, String salt, long time) {
+        Date date = new Date(System.currentTimeMillis() + time * 60 * 1000);
+        Algorithm algorithm = Algorithm.HMAC256(salt);
+        // 附带username信息
+        return JWT.create()
+                .withClaim("username", username)
+                .withExpiresAt(date)
+                .withIssuedAt(new Date())
+                .sign(algorithm);
+    }
 
     /**
      * 验证token是否有效
      * @param token
      * @param username
-     * @param password
+     * @param salt
      * @return
      */
-    public static boolean verify(String token,String username,String password){
+    public static boolean verify(String token,String username,String salt){
         try {
             Algorithm algorithm = Algorithm.HMAC256(salt);
             JWTVerifier verifier = JWT.require(algorithm).withClaim("username", username).build();
-            DecodedJWT verify = verifier.verify(token);
+            verifier.verify(token);
             return true;
         }catch (Exception e){
             return false;
@@ -69,24 +89,6 @@ public class JwtUtil {
         } catch (JWTDecodeException e) {
             return null;
         }
-    }
-
-    /**
-     * 生成签名,expireTime后过期
-     *
-     * @param username 用户名
-     * @param time     过期时间s
-     * @return 加密的token
-     */
-    public static String sign(String username, String salt, long time) {
-        Date date = new Date(System.currentTimeMillis() + time * 1000);
-        Algorithm algorithm = Algorithm.HMAC256(salt);
-        // 附带username信息
-        return JWT.create()
-                .withClaim("username", username)
-                .withExpiresAt(date)
-                .withIssuedAt(new Date())
-                .sign(algorithm);
     }
 
     /**

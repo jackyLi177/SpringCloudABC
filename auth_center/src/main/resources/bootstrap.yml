@@ -1,13 +1,19 @@
+server:
+  port: 10001
+  servlet:
+    context-path: /auth
 spring:
   application:
     name: anth_center
   profiles:
     active: dev
-server:
-  port: 10001
-  servlet:
-    context-path: /auth
-eureka:
-  client:
-    service-url:
-      defaultZone: http://39.100.194.182:12345/eureka/
+  # nacos 服务注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 1.116.27.19:8848
+      config:
+        server-addr: 1.116.27.19:8848
+jwt:
+  expire: 30
+
