@@ -10,4 +10,7 @@ import lombok.Data;
  */
 @Data
 public class SysUserVO extends SysUser {
+
+    private String token;
+
 }

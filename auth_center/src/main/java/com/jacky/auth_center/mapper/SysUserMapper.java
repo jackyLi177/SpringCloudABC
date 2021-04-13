@@ -1,4 +1,5 @@
 package com.jacky.auth_center.mapper;
+import java.util.List;
 
 import com.jacky.auth_center.model.DO.SysUser;import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +17,8 @@ public interface SysUserMapper {
     int updateByPrimaryKey(SysUser record);
 
     SysUser getOneByName(@Param("name") String name);
+
+    List<SysUser> getAll();
+
+
 }

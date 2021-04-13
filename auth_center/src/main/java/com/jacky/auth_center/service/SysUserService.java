@@ -3,6 +3,8 @@ package com.jacky.auth_center.service;
 import com.jacky.auth_center.model.DO.SysUser;
 import common.RespResult;
 
+import java.util.List;
+
 public interface SysUserService {
 
 
@@ -26,6 +28,7 @@ public interface SysUserService {
 
     SysUser getByName(String name);
 
+    List<SysUser> getAll();
 }
 
 

@@ -37,3 +37,6 @@
 /common_conf/common_conf.iml
 /nacos/nacos_config_center/target/
 /nacos/nacos_config_center/target/
+
+/**/**/target
+/auth_center/auth_center.iml

@@ -25,7 +25,7 @@ public class ADESUtils {
     private static final String ENCODING = "UTF-8";
 
     // 密盐
-    private static String aesSalt;
+    private static String aesSalt = "4BB90812C2B9B0882A6FA7C203E4717F";
     private static com.jacky.auth_center.util.ADESUtils adesUtils;
     private static Cipher encryptCipher;    // 加密cipher
     private static Cipher decryptChipher;   // 解密chipher
@@ -73,6 +73,10 @@ public class ADESUtils {
      * @return
      */
     public String encrypt(String pString) {
+
+        if (StringUtils.isBlank(pString)) {
+            return StringUtils.trimToEmpty(pString);
+        }
         try{
             return new String(Hex.encodeHex(encryptCipher.doFinal(pString.getBytes(ENCODING)))).toUpperCase();
         } catch (Exception e) {
@@ -87,6 +91,9 @@ public class ADESUtils {
      * @return
      */
     public String decrypt(String eString) {
+        if (StringUtils.isBlank(eString)){
+            return StringUtils.trimToEmpty(eString);
+        }
         try {
             return new String(decryptChipher.doFinal(Hex.decodeHex(eString.toCharArray())));
         } catch (Exception e) {
@@ -128,5 +135,10 @@ public class ADESUtils {
         String key = new String(Hex.encodeHex(skey.getEncoded()));
         //返回密钥的16进制字串
         return key.toUpperCase();
+    }
+
+    public static void main(String[] args) {
+        ADESUtils instance = ADESUtils.getInstance();
+        System.out.println(instance.decrypt("1D2DB7F58A9F5EA0D340F596A4692D3E2DBD72895B2FF184FF56FF2F57B7C2FF"));
     }
 }

@@ -1,8 +1,12 @@
 package com.jacky.auth_center.model.DO;
 
+import com.jacky.auth_center.common.DecryptField;
+import com.jacky.auth_center.util.ADESUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
+import java.lang.reflect.Field;
 
 /**
  * sys_user
@@ -34,6 +38,7 @@ public class SysUser {
     /**
      * 用户电话
      */
+    @DecryptField
     private String tel;
 
     /**
@@ -42,4 +47,16 @@ public class SysUser {
     private String idNum;
 
     public SysUser(){}
+
+    public String getTel(){
+        try {
+            Field tel = this.getClass().getDeclaredField("tel");
+            if (tel.isAnnotationPresent(DecryptField.class)){
+                return ADESUtils.getInstance().decrypt(this.tel);
+            }
+        } catch (NoSuchFieldException e) {
+            return this.tel;
+        }
+        return this.tel;
+    }
 }
